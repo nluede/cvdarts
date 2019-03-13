@@ -1,4 +1,4 @@
-from cvDarts.perception import DartThrownWatcher
+from cvdarts.perception import DartThrownWatcher
 
 # Defines a list of devices which
 webcam_device_ids = [1]
