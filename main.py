@@ -1,7 +1,13 @@
-from cvdarts.perception import DartThrownWatcher
+from cvdarts.capturingdevice import MockCapturingDevice, WebCamCapturingDevice
+from cvdarts.throwwatcher import ThrowWatcher
 
-# Defines a list of devices which
-webcam_device_ids = [0]
-watcher = DartThrownWatcher(webcam_device_ids)
+if __name__ == '__main__':
+    # Mock device list. Use if no web cam is present.
+    # device_list = [MockCapturingDevice(0), MockCapturingDevice(1)]
 
-print(watcher.is_new_dart_recognized())
+    # Mock device list. Use if no web cam is present.
+    device_list = [WebCamCapturingDevice(0), WebCamCapturingDevice(1)]
+
+    watcher = ThrowWatcher(device_list)
+
+    print(watcher.is_new_dart_recognized())
