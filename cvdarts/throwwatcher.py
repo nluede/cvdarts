@@ -27,7 +27,7 @@ class ThrowWatcher:
         while self.capturing:
             time_elapsed = time.time() - prev
             # TODO find a way to free cpu time (non-blocking) and remove sleep
-            sleep(0.1)
+            sleep(0.5)
             if is_frame_at_framerate(frame_rate, time_elapsed):
                 prev = time.time()
 
