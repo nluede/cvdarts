@@ -15,7 +15,7 @@ def get_capture_device(device_number, image_width, image_height):
 
 class CapturingDevice(object):
     """
-    Capturing device superclass
+    Capturing device superclass represents devices which capture visual input. These will be cameras in most cases.
     """
 
 
@@ -26,6 +26,14 @@ class WebCamCapturingDevice(CapturingDevice):
     """
 
     def __init__(self, device_number, image_width=1280, image_height=720):
+        """
+        :param device_number: numeric identifier of the device
+        :type device_number: int
+        :param image_width: y-pixel count of the capturing device
+        :type image_width: int
+        :param image_height: x-pixel count of the capturing device
+        :type image_height: int
+        """
         self.image_width = image_width
         self.image_height = image_height
         self.device_number = device_number
@@ -39,7 +47,12 @@ class WebCamCapturingDevice(CapturingDevice):
     def has_new_frame(self):
         return self.recorded_frame != []
 
-    def get_latest_frame(self):
+    def fetch_latest_frame(self):
+        """
+        Gets the latest frame that was captured.
+        :return: returns the latest captured frame from the device.
+        :rtype: UMat
+        """
         recent_frame = self.recorded_frame
         self.recorded_frame = []
         return recent_frame
@@ -89,7 +102,7 @@ class MockCapturingDevice(CapturingDevice):
             return True
         return False
 
-    def get_latest_frame(self):
+    def fetch_latest_frame(self):
         recent_frame = self.recorded_frame
         self.recorded_frame = []
         return recent_frame
