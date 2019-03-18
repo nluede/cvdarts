@@ -59,7 +59,6 @@ class WebCamCapturingDevice(CapturingDevice):
 
     def process_image(self):
         _, frame = self.capture_device.read()
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         diff = self.get_difference(frame)
 
         white_pixels = np.sum(diff > IMAGE_DIFFERENCE_THRESHOLD)

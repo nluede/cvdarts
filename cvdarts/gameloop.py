@@ -4,7 +4,7 @@ from time import sleep
 import cv2
 
 from cvdarts.darts_detector import get_new_images
-from cvdarts.erosion_processor import erode
+from cvdarts.image_processor import erode, segment
 
 
 def is_frame_at_frame_rate(frame_rate: int, time_elapsed: int) -> object:
@@ -54,11 +54,17 @@ class GameLoop:
         cv2.destroyAllWindows()
 
     def process_captured_input(self, captured_input, device_number):
-        captured_input = erode(captured_input)
+        if captured_input == []:
+            return
 
-        if captured_input != []:
-            cv2.imshow('device_' + str(device_number), captured_input)
-            cv2.waitKey(1)
+        captured_input = erode(captured_input)
+        captured_input = segment(captured_input)
+
+        if captured_input is None:
+            return
+
+        cv2.imshow('device_' + str(device_number), captured_input)
+        cv2.waitKey(1)
 
     def capture_images(self):
         for device in self.devices:
