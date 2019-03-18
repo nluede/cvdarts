@@ -11,7 +11,8 @@ if __name__ == '__main__':
         device_list = [MockCapturingDevice(0), MockCapturingDevice(1)]
     else:
         # Mock device list. Use if one or more web cams are available.
-        device_list = [WebCamCapturingDevice(2), WebCamCapturingDevice(3)]
+        device_list = [WebCamCapturingDevice(1)]
+        # device_list = [WebCamCapturingDevice(2), WebCamCapturingDevice(3)]
 
     game_loop = GameLoop(device_list)
     game_loop.run()
