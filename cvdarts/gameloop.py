@@ -24,7 +24,7 @@ class GameLoop:
         """
         self.devices = devices
         self.capturing = True
-        self.frames_per_second = 2
+        self.frames_per_second = 1
 
     def run(self):
         """
@@ -35,7 +35,7 @@ class GameLoop:
         while self.capturing:
             time_elapsed = time.time() - prev
             # TODO find a way to free cpu time (non-blocking) and remove sleep
-            sleep(0.2)
+            sleep(0.01)
             if is_frame_at_frame_rate(self.frames_per_second, time_elapsed):
                 prev = time.time()
 

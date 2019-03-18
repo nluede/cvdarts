@@ -4,7 +4,7 @@ from cvdarts.gameloop import GameLoop
 
 if __name__ == '__main__':
 
-    mode = "mock"
+    mode = "cam"
 
     if mode == "mock":
         # Mock device list. Use if no web cam is present.
