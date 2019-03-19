@@ -7,6 +7,7 @@ verify_ssl = true
 
 [packages]
 opencv-python = "*"
+scikit-image = "*"
 
 [requires]
 python_version = "3.6"

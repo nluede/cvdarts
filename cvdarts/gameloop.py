@@ -4,7 +4,7 @@ from time import sleep
 import cv2
 
 from cvdarts.darts_detector import get_new_images
-from cvdarts.image_processor import erode, segment
+from cvdarts.image_processor import erode, segment, find_darts_axis
 
 
 def is_frame_at_frame_rate(frame_rate: int, time_elapsed: int) -> object:
@@ -58,13 +58,13 @@ class GameLoop:
             return
 
         captured_input = erode(captured_input)
-        captured_input = segment(captured_input)
+        x, y, w, h = segment(captured_input)
+        if w > 0 and h > 0:
+            captured_input = find_darts_axis(captured_input, h, w, x, y)
 
-        if captured_input is None:
-            return
-
-        cv2.imshow('device_' + str(device_number), captured_input)
-        cv2.waitKey(1)
+        if captured_input is not None:
+            cv2.imshow('device_' + str(device_number), captured_input)
+            cv2.waitKey(1)
 
     def capture_images(self):
         for device in self.devices:

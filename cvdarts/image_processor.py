@@ -1,5 +1,7 @@
 import cv2
+import numpy
 import numpy as np
+from skimage.measure import LineModelND
 
 
 def erode(captured_input):
@@ -28,14 +30,14 @@ def segment(captured_input):
     # Find contours
     contours, hierarchy = cv2.findContours(threshed, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if len(contours) <= 0:
-            return captured_input
+            return 0, 0, 0, 0
 
     best_contour = find_best_contour(contours)
 
     x, y, w, h = cv2.boundingRect(best_contour)
     cv2.rectangle(captured_input, (x, y), (x + w, y + h), (255, 255, 255), 3)
 
-    return captured_input
+    return x, y, w, h
 
 
 def find_best_contour(contours):
@@ -47,3 +49,16 @@ def find_best_contour(contours):
             best_contour = cnt
             best_area = cv2.contourArea(cnt)
     return best_contour
+
+
+def find_darts_axis(captured_input, h, w, x, y):
+    dartboard_offset = 100
+    segmented = captured_input[y:y + h, x:x + w]
+    data = np.argwhere(segmented == 255)
+    model = LineModelND()
+    model.estimate(data)
+    top_y = np.arange(0, h + dartboard_offset)
+    line = model.predict_y(top_y)
+    captured_input = cv2.line(captured_input, (int(x + line[0]), y),
+                              (int(x + line[len(line) - 1]), y + h + dartboard_offset), (0, 255, 0), 3)
+    return captured_input
