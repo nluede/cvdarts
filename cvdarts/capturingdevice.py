@@ -40,8 +40,8 @@ class WebCamCapturingDevice(CapturingDevice):
         self.capture_device = get_capture_device(device_number, image_width, image_height)
         self.previous_frame = []
         self.recorded_frame = []
+        self.dartboard_level = int(image_height / 2)
         if configure:
-            self.dartboard_level = int(image_height / 2)
             self.configure()
 
     def release(self):

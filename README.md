@@ -19,5 +19,20 @@ pip install --user pipenv
 With pipenv installed you can run cvdarts with:
 ```
 pipenv install
-pipenv run python main.py
+pipenv run python main.py 0
+```
+
+## Running the application
+The application takes multiple arguments. First of all it takes the web cam ids as multiple arguments. The ids start 
+with 0 and increment as you connect more web cams to your computer. If your computer has a integrated web cam, this is 
+usually device `0`. Connect two more external web cams and those will have the ids `1` and `2`. 
+
+To configure those external cams from the example above type:
+```
+pipenv run python main.py --config 1 2
+```
+
+Afterwards you can run the program with those 2 cameras:
+```
+pipenv run python main.py 1 2
 ```
