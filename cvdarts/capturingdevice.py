@@ -25,7 +25,7 @@ class WebCamCapturingDevice(CapturingDevice):
     when the captured image changes. The latest captured image can be fetched from the device.
     """
 
-    def __init__(self, device_number, image_width=1280, image_height=720):
+    def __init__(self, device_number, configure=False, image_width=1280, image_height=720):
         """
         :param device_number: numeric identifier of the device
         :type device_number: int
@@ -40,6 +40,9 @@ class WebCamCapturingDevice(CapturingDevice):
         self.capture_device = get_capture_device(device_number, image_width, image_height)
         self.previous_frame = []
         self.recorded_frame = []
+        if configure:
+            self.dartboard_level = int(image_height / 2)
+            self.configure()
 
     def release(self):
         self.capture_device.release()
@@ -55,6 +58,11 @@ class WebCamCapturingDevice(CapturingDevice):
         """
         recent_frame = self.recorded_frame
         self.recorded_frame = []
+        recent_frame = cv2.line(recent_frame,
+                                (0, self.dartboard_level),
+                                (self.image_width, self.dartboard_level),
+                                (255, 0, 0),
+                                10)
         return recent_frame
 
     def process_image(self):
@@ -76,6 +84,28 @@ class WebCamCapturingDevice(CapturingDevice):
             return cv2.subtract(self.previous_frame, frame)
         else:
             return frame
+
+    def configure(self):
+        while (True):
+            # Capture frame-by-frame
+            ret, frame = self.capture_device.read()
+
+            # Our operations on the frame come here
+            image = cv2.cvtColor(frame, 0)
+
+            image = cv2.line(image, (0, self.dartboard_level), (self.image_width, self.dartboard_level), (0, 255, 0), 1)
+
+            # Display the resulting frame
+            cv2.imshow('frame', image)
+            c = cv2.waitKey(1)
+            if 'q' == chr(c & 255):
+                break
+            elif 'j' == chr(c & 255):
+                if self.dartboard_level < self.image_height-1:
+                    self.dartboard_level += 5
+            elif 'k' == chr(c & 255):
+                if self.dartboard_level > 0:
+                    self.dartboard_level -= 5
 
 
 class MockCapturingDevice(CapturingDevice):

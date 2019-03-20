@@ -1,5 +1,4 @@
 from cvdarts.capturingdevice import MockCapturingDevice, WebCamCapturingDevice
-from cvdarts.darts_detector import DartsDetector
 from cvdarts.gameloop import GameLoop
 
 if __name__ == '__main__':
@@ -12,7 +11,9 @@ if __name__ == '__main__':
     else:
         # Mock device list. Use if one or more web cams are available.
         # device_list = [WebCamCapturingDevice(1)]
-        device_list = [WebCamCapturingDevice(2), WebCamCapturingDevice(3)]
+        device = WebCamCapturingDevice(2)
+        capturing_device = WebCamCapturingDevice(3)
+        device_list = [device, capturing_device]
 
     game_loop = GameLoop(device_list)
     game_loop.run()
