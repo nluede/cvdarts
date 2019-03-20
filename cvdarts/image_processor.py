@@ -58,7 +58,10 @@ def find_darts_axis(captured_input, h, w, x, y):
     model = LineModelND()
     model.estimate(data)
     top_y = np.arange(0, h + dartboard_offset)
-    line = model.predict_y(top_y)
+    try:
+        line = model.predict_y(top_y)
+    except ValueError: # Can occur when axis is parallel to dartboard
+        return captured_input
     captured_input = cv2.line(captured_input, (int(x + line[0]), y),
                               (int(x + line[len(line) - 1]), y + h + dartboard_offset), (0, 255, 0), 3)
     return captured_input
