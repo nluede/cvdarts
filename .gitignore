@@ -105,3 +105,6 @@ venv.bak/
 
 # PyCharm Ide
 .idea/
+
+# Sqlite database
+*.db
