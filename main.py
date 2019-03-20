@@ -1,6 +1,7 @@
 import argparse
 
 from cvdarts.capturingdevice import MockCapturingDevice, WebCamCapturingDevice
+from cvdarts.configuration_repository import create_config, put_config_for_device, find_config_for_device
 from cvdarts.gameloop import GameLoop
 
 
@@ -18,21 +19,34 @@ def parse_args():
     args = parser.parse_args()
 
 
+def use_real_devices():
+    for device_id in args.device_ids:
+        config_of_device = find_config_for_device(device_id)
+        level_loaded_from_config = 0
+        if config_of_device is not None:
+            level_loaded_from_config = config_of_device[1]
+        devices.append(WebCamCapturingDevice(device_id, level_loaded_from_config))
+
+    if args.config:
+        for device in devices:
+            config_of_device = find_config_for_device(device.device_number)
+            level_loaded_from_config = 0
+            if config_of_device is not None:
+                level_loaded_from_config = config_of_device[1]
+            dartboard_level = device.configure(level_loaded_from_config)
+            put_config_for_device(device.device_number, dartboard_level)
+    else:
+        game_loop = GameLoop(devices)
+        game_loop.run()
+
+
 if __name__ == '__main__':
 
     parse_args()
-    print(args)
-
-    if args.config:
-        for device_id in args.device_ids:
-            WebCamCapturingDevice(device_id, configure=True)
-
     devices = []
-    for device_id in args.device_ids:
-        devices.append(WebCamCapturingDevice(device_id))
+    create_config()
 
     if args.testdata:
         devices = [MockCapturingDevice(0)]
-
-    game_loop = GameLoop(devices)
-    game_loop.run()
+    else:
+        use_real_devices()

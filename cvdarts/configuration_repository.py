@@ -1,13 +1,13 @@
 import sqlite3
 
 
-def create():
+def create_config():
     conn = sqlite3.connect('configuration.db')
     cursor = conn.cursor()
 
     cursor.execute("""
                     CREATE TABLE IF NOT EXISTS configuration (
-                    device_id integer NOT NULL,
+                    device_id integer PRIMARY KEY,
                     dartboard_level integer NOT NULL
                     )
                     """)
@@ -16,11 +16,11 @@ def create():
     conn.close()
 
 
-def insert(device_id, dartboard_level):
+def put_config_for_device(device_id, dartboard_level):
     conn = sqlite3.connect('configuration.db')
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO configuration VALUES (" +
+    cursor.execute("INSERT OR REPLACE INTO configuration VALUES (" +
                    str(device_id) +
                    ", " +
                    str(dartboard_level) +
@@ -30,12 +30,12 @@ def insert(device_id, dartboard_level):
     conn.close()
 
 
-def findAll():
+def find_config_for_device(device_id):
     conn = sqlite3.connect('configuration.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM configuration")
-    result = cursor.fetchall()
+    cursor.execute("SELECT * FROM configuration WHERE device_id=" + str(device_id))
+    result = cursor.fetchone()
 
     conn.commit()
     conn.close()
