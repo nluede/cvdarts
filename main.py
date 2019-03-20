@@ -19,7 +19,7 @@ def parse_args():
     args = parser.parse_args()
 
 
-def use_real_devices():
+def initialize_real_devices():
     for device_id in args.device_ids:
         config_of_device = find_config_for_device(device_id)
         level_loaded_from_config = 0
@@ -27,17 +27,15 @@ def use_real_devices():
             level_loaded_from_config = config_of_device[1]
         devices.append(WebCamCapturingDevice(device_id, level_loaded_from_config))
 
-    if args.config:
-        for device in devices:
-            config_of_device = find_config_for_device(device.device_number)
-            level_loaded_from_config = 0
-            if config_of_device is not None:
-                level_loaded_from_config = config_of_device[1]
-            dartboard_level = device.configure(level_loaded_from_config)
-            put_config_for_device(device.device_number, dartboard_level)
-    else:
-        game_loop = GameLoop(devices)
-        game_loop.run()
+
+def configure_devices():
+    for device in devices:
+        config_of_device = find_config_for_device(device.device_number)
+        level_loaded_from_config = 0
+        if config_of_device is not None:
+            level_loaded_from_config = config_of_device[1]
+        dartboard_level = device.configure(level_loaded_from_config)
+        put_config_for_device(device.device_number, dartboard_level)
 
 
 if __name__ == '__main__':
@@ -49,4 +47,9 @@ if __name__ == '__main__':
     if args.testdata:
         devices = [MockCapturingDevice(0)]
     else:
-        use_real_devices()
+        initialize_real_devices()
+        if args.config:
+            configure_devices()
+        else:
+            game_loop = GameLoop(devices)
+            game_loop.run()
