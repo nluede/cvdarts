@@ -22,10 +22,10 @@ def parse_args():
 def initialize_real_devices():
     for device_id in args.device_ids:
         config_of_device = find_config_for_device(device_id)
-        level_loaded_from_config = 0
+        dartboard_level_from_config = 0
         if config_of_device is not None:
-            level_loaded_from_config = config_of_device[1]
-        devices.append(WebCamCapturingDevice(device_id, level_loaded_from_config))
+            dartboard_level_from_config = config_of_device[1]
+        devices.append(WebCamCapturingDevice(device_id, dartboard_level_from_config))
 
 
 def configure_devices():

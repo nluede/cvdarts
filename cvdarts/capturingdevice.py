@@ -56,11 +56,6 @@ class WebCamCapturingDevice(CapturingDevice):
         """
         recent_frame = self.recorded_frame
         self.recorded_frame = []
-        recent_frame = cv2.line(recent_frame,
-                                (0, self.dartboard_level),
-                                (self.image_width, self.dartboard_level),
-                                (255, 0, 0),
-                                10)
         return recent_frame
 
     def process_image(self):
