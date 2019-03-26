@@ -38,7 +38,7 @@ class GameLoop:
         while self.capturing:
             time_elapsed = time.time() - prev
             # TODO find a way to free cpu time (non-blocking) and remove sleep
-            sleep(0.01)
+            sleep(0.1)
             if is_frame_at_frame_rate(self.frames_per_second, time_elapsed):
                 prev = time.time()
                 self.process()
@@ -53,23 +53,10 @@ class GameLoop:
         for device in self.devices:
             device.process_image()
 
-        if has_new_images(self.devices):
-            for device in self.devices:
-                latest_frame = device.fetch_latest_frame()
-                if latest_frame != []:
-                    # set image and image metadata
-                    processed_image = ProcessedImage(latest_frame,
-                                                     device.image_width,
-                                                     device.image_height,
-                                                     device.device_number)
-                    # set the dart board level obtained from the device
-                    processed_image.set_darts_board_offset(device.dartboard_level)
-                    # do image processing
-                    self.process_input(processed_image)
+        print("check")
 
-    def process_input(self, processed_image):
-        processed_image.image = erode(processed_image)
-        processed_image.set_bounding_box(segment(processed_image))
-        processed_image.set_darts_axis(find_darts_axis(processed_image))
-        display_with_information(processed_image)
-
+        for device in self.devices:
+            frame = device.fetch_latest_frame()
+            # show image
+            cv2.imshow('device_', frame)
+            cv2.waitKey(1)

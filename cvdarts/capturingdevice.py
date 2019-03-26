@@ -46,7 +46,7 @@ class WebCamCapturingDevice(CapturingDevice):
         self.capture_device.release()
 
     def has_new_frame(self):
-        return self.recorded_frame != []
+        return self.previous_frame != []
 
     def fetch_latest_frame(self):
         """
@@ -54,20 +54,9 @@ class WebCamCapturingDevice(CapturingDevice):
         :return: returns the latest captured frame from the device.
         :rtype: UMat
         """
-        recent_frame = self.recorded_frame
-        self.recorded_frame = []
-        return recent_frame
-
+        return self.previous_frame
     def process_image(self):
         _, frame = self.capture_device.read()
-        diff = self.get_difference(frame)
-
-        white_pixels = np.sum(diff > IMAGE_DIFFERENCE_THRESHOLD)
-
-        sixty_percent_of_all_pixels = (self.image_width * self.image_height) * 0.6
-        minimum_changed_pixels_threshold = 10
-        if minimum_changed_pixels_threshold < white_pixels < sixty_percent_of_all_pixels:
-            self.recorded_frame = diff
 
         self.previous_frame = frame
 
