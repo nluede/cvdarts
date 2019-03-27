@@ -2,6 +2,7 @@ import argparse
 
 from cvdarts.capturingdevice import MockCapturingDevice, WebCamCapturingDevice
 from cvdarts.configuration_repository import create_config, put_config_for_device, find_config_for_device
+from cvdarts.dartboard import Board
 from cvdarts.gameloop import GameLoop
 
 
@@ -39,6 +40,9 @@ def configure_devices():
 
 
 if __name__ == '__main__':
+
+    b = Board()
+    b.print()
 
     parse_args()
     devices = []
