@@ -1,8 +1,16 @@
 import math
-"""
 
-     ----------------- X --------------->
- |     
+"""
+This class represents a dart board with scores and the arrangement of the fields. A dart board is represented by a list
+of board fields. A regular dart board consists of 20 fields. Each board field has a score and an angle. The angle runs 
+through the center axis of the board field. 
+The angle is measured clockwise. 0 degrees is the axis of the 6-points field, so it is on the horizontal axis to the 
+right.
+
+
+
+-1,-1 ---------------- X ---------------> 1,-1
+      
  |                    20
  |                %%%    %%%
  |           %%%              %%%
@@ -11,14 +19,17 @@ import math
    
  |      %%%                         %%%
  |  11                o------ 0° ----  6
- |      %%%           |             %%%
- |                    |
+ |      %%%           |  |          %%%
+ |                    |_/
  |      %%%           |            %%%
  |                    |
  |         %%%       90 °       %%%
  |                    |
 \|/              %%%     %%%
  v                    3
+ 
+-1, 1                                     1, 1
+
 """
 
 
@@ -54,7 +65,7 @@ class Board(object):
 
             x, y = f.get_coordinates_top_left()
 
-            print("aNGLE: " + str(f.left_angle()))
+            print("Angle: " + str(f.left_angle()))
             print("X: " + str(x) + ", Y: " + str(y))
             print("")
 
@@ -65,12 +76,11 @@ class BoardField(object):
         self.angle = angle
 
     def left_angle(self):
-        result = self.angle - 8
+        result = self.angle - 9
         if result < 0:
             result = result + 360
         return result
 
     def get_coordinates_top_left(self):
         angle = self.left_angle()
-        return math.cos(math.radians(angle)), math.sin(math.radians(angle))
-
+        return round(math.cos(math.radians(angle)), 4), round(math.sin(math.radians(angle)), 4)
