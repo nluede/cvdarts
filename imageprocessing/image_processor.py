@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from skimage.measure import LineModelND
 
-from cvdarts.data import ProcessedImage, BoundingBox
+from imageprocessing.data import ProcessedImage, BoundingBox
 
 
 def erode(image):
@@ -81,11 +81,11 @@ def find_darts_axis(processed_image):
 
         #find points that are white
         data = np.argwhere(segmented_image == 255)
+        if len(data) < 2:
+            return None
 
         #estimate least squares
         model = LineModelND()
-        if len(data) < 2:
-            return None
         model.estimate(data)
 
         top_y = np.arange(0-y, h)

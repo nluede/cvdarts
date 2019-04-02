@@ -1,5 +1,9 @@
 import sqlite3
 
+"""
+Repository class to persist the configuration of the individual devices
+"""
+
 
 def create_config():
     conn = sqlite3.connect('configuration.db')

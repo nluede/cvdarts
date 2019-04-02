@@ -21,11 +21,11 @@ def display_with_information(processed_image):
         h = processed_image.bounding_box.h
         # draw darts axis
         if line is not None:
-            image_to_display = cv2.line(image_to_display, (int(x + line[0]), y),
-                                        (int(x + line[len(line) - 1]), y + h), (0, 255, 0), 3)
             # intersection dart with dart board
-            x_value = int(processed_image.bounding_box.x +
-                          processed_image.darts_axis[len(processed_image.darts_axis) - 1])
+            x_value = int(x + processed_image.darts_axis[len(processed_image.darts_axis) - 1])
+
+            image_to_display = cv2.line(image_to_display, (int(x + line[0]), y),
+                                        (x_value, processed_image.darts_board_offset), (0, 255, 0), 3)
 
             image_to_display = cv2.line(image_to_display,
                                         (x_value, processed_image.darts_board_offset + 70),

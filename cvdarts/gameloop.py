@@ -4,9 +4,9 @@ from time import sleep
 import cv2
 
 from cvdarts.darts_detector import has_new_images
-from cvdarts.data import ProcessedImage
+from imageprocessing.data import ProcessedImage
 from cvdarts.display import display_with_information
-from cvdarts.image_processor import erode, segment, find_darts_axis
+from imageprocessing.image_processor import erode, segment, find_darts_axis
 
 
 def is_frame_at_frame_rate(frame_rate: int, time_elapsed: int) -> object:
@@ -27,7 +27,7 @@ class GameLoop:
         """
         self.devices = devices
         self.capturing = True
-        self.frames_per_second = 5
+        self.frames_per_second = 10
 
     def run(self):
         """

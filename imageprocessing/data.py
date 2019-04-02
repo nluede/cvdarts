@@ -1,4 +1,8 @@
 class ProcessedImage(object):
+    """
+    ProcessedImage represents a captured image with all its information which is gathered and calculated throughout the
+    image detection process.
+    """
     def __init__(self, image, image_width, image_height, device_number):
         self.image = image
         self.image_width = image_width
