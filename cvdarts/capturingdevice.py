@@ -65,7 +65,8 @@ class WebCamCapturingDevice(CapturingDevice):
         white_pixels = np.sum(diff > IMAGE_DIFFERENCE_THRESHOLD)
 
         sixty_percent_of_all_pixels = (self.image_width * self.image_height) * 0.6
-        minimum_changed_pixels_threshold = 10
+        minimum_changed_pixels_threshold = (self.image_width * self.image_height) * 0.015
+
         if minimum_changed_pixels_threshold < white_pixels < sixty_percent_of_all_pixels:
             self.recorded_frame = diff
 
@@ -114,6 +115,9 @@ class MockCapturingDevice(CapturingDevice):
     """
 
     def __init__(self, device_number):
+        self.image_width = 960
+        self.image_height = 544
+        self.dartboard_level = 400
         self.device_number = device_number
         self.previous_frame = []
         self.recorded_frame = []
@@ -124,7 +128,7 @@ class MockCapturingDevice(CapturingDevice):
         pass
 
     def has_new_frame(self):
-        if self.access_counter % 4 == 0:
+        if self.access_counter % 10 == 0:
             self.next_image()
             return True
         return False

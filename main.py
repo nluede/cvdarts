@@ -41,15 +41,14 @@ def configure_devices():
 
 if __name__ == '__main__':
 
-    b = Board()
-    b.print()
-
     parse_args()
     devices = []
     create_config()
 
     if args.testdata:
         devices = [MockCapturingDevice(0)]
+        game_loop = GameLoop(devices)
+        game_loop.run()
     else:
         initialize_real_devices()
         if args.config:

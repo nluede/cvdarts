@@ -27,7 +27,7 @@ class GameLoop:
         """
         self.devices = devices
         self.capturing = True
-        self.frames_per_second = 20
+        self.frames_per_second = 5
 
     def run(self):
         """
